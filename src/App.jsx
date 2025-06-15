@@ -509,15 +509,26 @@ function App() {
                             <p className="text-xs text-gray-500 font-mono">
                               {tx.hash.slice(0, 6)}...{tx.hash.slice(-4)}
                             </p>
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(tx.hash);
-                                toast.success('Transaction hash copied!');
-                              }}
-                              className="p-1 hover:bg-gray-200 rounded-lg transition-colors"
-                            >
-                              <Copy size={14} />
-                            </button>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => {
+                                  navigator.clipboard.writeText(tx.hash);
+                                  toast.success('Transaction hash copied!');
+                                }}
+                                className="p-1 hover:bg-gray-200 rounded-lg transition-colors"
+                              >
+                                <Copy size={14} />
+                              </button>
+                              <a
+                                href={`https://explorer-testnet.shardeum.org/transaction/${tx.hash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-1 hover:bg-gray-200 rounded-lg transition-colors"
+                                title="View on Explorer"
+                              >
+                                <ExternalLink size={14} />
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
