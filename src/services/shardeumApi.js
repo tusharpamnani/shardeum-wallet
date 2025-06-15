@@ -2,10 +2,10 @@ import { ethers } from 'ethers';
 
 class ShardeumAPI {
   constructor() {
-    this.rpcUrl = 'https://api-testnet.shardeum.org'; // Update to mainnet if needed
+    this.rpcUrl = 'https://api-testnet.shardeum.org'; // Replace with mainnet URL when needed
     this.provider = null;
     this.signer = null;
-    this.txHistory = {}; // in-memory mock transaction log
+    this.txHistory = {};
   }
 
   async initialize() {
@@ -15,7 +15,7 @@ class ShardeumAPI {
       this.signer = await this.provider.getSigner();
       return true;
     } else {
-      throw new Error('Wallet not found. Please install MetaMask or a compatible wallet.');
+      throw new Error('Wallet not found. Please install MetaMask or another wallet.');
     }
   }
 
@@ -55,7 +55,6 @@ class ShardeumAPI {
       gasPrice
     });
 
-    // Store in-memory tx log
     const sender = await this.getCurrentAddress();
     if (!this.txHistory[sender]) this.txHistory[sender] = [];
     this.txHistory[sender].push({
@@ -72,15 +71,34 @@ class ShardeumAPI {
     const res = await fetch(this.rpcUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ method: 'eth_gasPrice', id: 1, jsonrpc: '2.0' })
+      body: JSON.stringify({
+        method: 'eth_gasPrice',
+        id: 1,
+        jsonrpc: '2.0'
+      })
     });
     const data = await res.json();
     return data.result;
   }
 
-  async getTransactionHistory() {
-    const address = await this.getCurrentAddress();
-    return this.txHistory[address] || [];
+  async getTransactionByHash(txHash) {
+    const res = await fetch(this.rpcUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        method: 'eth_getTransactionByHash',
+        params: [txHash],
+        id: 1,
+        jsonrpc: '2.0'
+      })
+    });
+    const data = await res.json();
+    return data.result;
+  }
+
+  async donate(toDonationAddress, amount) {
+    // Wrapper around sendSHM for donations
+    return await this.sendSHM(toDonationAddress, amount);
   }
 
   formatSHM(wei) {
