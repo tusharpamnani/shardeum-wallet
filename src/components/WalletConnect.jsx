@@ -1,99 +1,55 @@
 import React from 'react';
-import { Wallet, Users, Shield, Zap } from 'lucide-react';
+import { Wallet, Shield, Zap, Star } from 'lucide-react';
+import GlowCard from './GlowCard';
+import AnimatedButton from './ui/AnimatedButton';
+import FloatingParticles from './FloatingParticles';
 
-const WalletConnect = ({ onConnect, loading }) => {
-  return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        {/* Logo and Title */}
-        <div className="text-center mb-8">
-          <div className="gradient-bg w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Users size={32} className="text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">SHM Splitter</h1>
-          <p className="text-gray-600">Split bills and pay with SHM on Shardeum</p>
+
+const WalletConnect = ({ onConnect, loading }) => (
+  <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-6 relative overflow-hidden">
+    <FloatingParticles />
+    
+    {/* Background Pattern */}
+    <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50" />
+    
+    <GlowCard className="p-12 max-w-md w-full text-center gradient">
+      <div className="mb-8">
+        <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
+          <Wallet size={48} className="text-white" />
         </div>
-
-        {/* Features */}
-        <div className="grid grid-cols-1 gap-4 mb-8">
-          <div className="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-sm border">
-            <div className="bg-shardeum-100 p-2 rounded-lg">
-              <Users size={20} className="text-shardeum-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Group Expenses</h3>
-              <p className="text-sm text-gray-600">Create and manage expense groups</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-sm border">
-            <div className="bg-shardeum-100 p-2 rounded-lg">
-              <Zap size={20} className="text-shardeum-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Auto Split</h3>
-              <p className="text-sm text-gray-600">Automatic and manual split calculations</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-sm border">
-            <div className="bg-shardeum-100 p-2 rounded-lg">
-              <Shield size={20} className="text-shardeum-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">SHM Payments</h3>
-              <p className="text-sm text-gray-600">Pay directly with SHM cryptocurrency</p>
-            </div>
-          </div>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          Shardeum Wallet
+        </h1>
+        <p className="text-gray-600 text-lg">
+          Connect your wallet to access the future of decentralized finance
+        </p>
+      </div>
+      
+      <AnimatedButton
+        onClick={onConnect}
+        loading={loading}
+        className="w-full"
+      >
+        <Wallet size={24} />
+        {loading ? 'Connecting...' : 'Connect Wallet'}
+      </AnimatedButton>
+      
+      <div className="mt-8 flex items-center justify-center gap-6 text-sm text-gray-500">
+        <div className="flex items-center gap-2">
+          <Shield size={16} />
+          <span>Secure</span>
         </div>
-
-        {/* Connect Wallet Button */}
-        <div className="card">
-          <div className="text-center mb-4">
-            <Wallet size={48} className="text-shardeum-600 mx-auto mb-3" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Connect Your Wallet</h2>
-            <p className="text-gray-600 text-sm">
-              Connect your MetaMask or compatible wallet to start splitting bills with SHM
-            </p>
-          </div>
-
-          <button
-            onClick={onConnect}
-            disabled={loading}
-            className="w-full btn-primary flex items-center justify-center space-x-2 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <>
-                <div className="loading-spinner"></div>
-                <span>Connecting...</span>
-              </>
-            ) : (
-              <>
-                <Wallet size={20} />
-                <span>Connect Wallet</span>
-              </>
-            )}
-          </button>
-
-          <div className="mt-4 text-center">
-            <p className="text-xs text-gray-500">
-              Make sure you're connected to the Shardeum network
-            </p>
-          </div>
+        <div className="flex items-center gap-2">
+          <Zap size={16} />
+          <span>Fast</span>
         </div>
-
-        {/* Requirements */}
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Requirements:</p>
-          <ul className="mt-2 space-y-1">
-            <li>• MetaMask or compatible Web3 wallet</li>
-            <li>• Shardeum network configuration</li>
-            <li>• SHM tokens for transactions</li>
-          </ul>
+        <div className="flex items-center gap-2">
+          <Star size={16} />
+          <span>Trusted</span>
         </div>
       </div>
-    </div>
-  );
-};
+    </GlowCard>
+  </div>
+);
 
-export default WalletConnect; 
+export default WalletConnect;
